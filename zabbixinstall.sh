@@ -5,8 +5,6 @@
 # Step 3 = Downloads Zabbix-Agent Repository & Installs the Zabbix-Agent
 # Step 4 = Update Zabbix-Agent Config, Enable Service to auto start post Boot & Restart Zabbix-Agent
 # Step 5 = Installation Completion Greeting
-
-
 function editzabbixconf()
 {
 echo ========================================================================
@@ -28,17 +26,13 @@ echo !! 4 !! Enabled Zabbix-Agent Service to Auto Start at Boot Time
 echo !! 4 !! Restarted Zabbix-Agent post updating conf file
 echo ========================================================================
 }
-
-
 function ifexitiszero()
 {
 if [[ $? == 0 ]];
 then editzabbixconf
 else echo :-/ Failed at Step 3 : We"'"re Sorry. This script cannot be used for zabbix-agent installation on this machine && exit 0
-
 fi
 }
-
 function rhel8()
 {
 rpm -Uvh http://repo.zabbix.com/zabbix/5.0/rhel/8/x86_64/zabbix-release-5.0-1.el8.noarch.rpm
@@ -58,7 +52,6 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
 function rhel6()
 {
 rpm -Uvh http://repo.zabbix.com/zabbix/5.0/rhel/6/x86_64/zabbix-release-5.0-1.el6.noarch.rpm
@@ -68,7 +61,6 @@ ifexitiszero
 chkconfig zabbix-agent on
 service zabbix-agent restart
 }
-
 function rhel5()
 {
 rpm -Uvh http://repo.zabbix.com/zabbix/4.4/rhel/5/x86_64/zabbix-agent-4.4.9-1.el5.x86_64.rpm
@@ -76,7 +68,6 @@ ifexitiszero
 chkconfig zabbix-agent on
 service zabbix-agent restart
 }
-
 function ubuntu20()
 {
 wget http://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+focal_all.deb
@@ -87,7 +78,6 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
 function ubuntu18()
 {
 wget http://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+bionic_all.deb
@@ -98,7 +88,6 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
 function ubuntu16()
 {
 wget http://repo.zabbix.com/zabbix/5.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.4-1+ubuntu16.04_all.deb
@@ -109,8 +98,6 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
-
 function ubuntu14()
 {
 wget http://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-1+trusty_all.deb
@@ -121,7 +108,6 @@ ifexitiszero
 update-rc.d zabbix-agent enable
 service zabbix-agent restart
 }
-
 function debian10()
 {
 wget http://repo.zabbix.com/zabbix/5.0/debian/pool/main/z/zabbix-release/zabbix-release_5.0-1+buster_all.deb
@@ -132,7 +118,6 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
 function debian9()
 {
 wget http://repo.zabbix.com/zabbix/5.4/debian/pool/main/z/zabbix-release/zabbix-release_5.4-1+debian9_all.deb
@@ -143,7 +128,6 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
 function debian8()
 {
 wget http://repo.zabbix.com/zabbix/5.4/debian/pool/main/z/zabbix-release/zabbix-release_5.4-1+debian8_all.deb
@@ -154,7 +138,6 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
 function suse15()
 {
 rpm -Uvh --nosignature http://repo.zabbix.com/zabbix/5.0/sles/15/x86_64/zabbix-release-5.0-1.el15.noarch.rpm
@@ -164,7 +147,6 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
 function suse12()
 {
 rpm -Uvh --nosignature http://repo.zabbix.com/zabbix/5.0/sles/12/x86_64/zabbix-release-5.0-1.el12.noarch.rpm
@@ -174,16 +156,11 @@ ifexitiszero
 systemctl enable zabbix-agent
 systemctl restart zabbix-agent
 }
-
-
-
 #VERSION ID FUNCTION'S LISTED BELOW
-
 function version_id_red()
 {
 r=$(cat /etc/redhat-release)
 echo  !! 2 !! OS Version determined as $r
-
 if [[ $r == *"8."* ]];     then rhel8
 elif [[ $r == *"7."* ]];   then rhel7
 elif [[ $r == *"6."* ]];   then rhel6
@@ -191,13 +168,10 @@ elif [[ $r == *"5."* ]];   then rhel5
 else echo :-/ Failed at Step 2 : We"'"re Sorry. This script cannot be used for zabbix-agent installation on this machine && exit 0
 fi
 }
-
-
 function version_id_centos()
 {
 c1=$(cat /etc/redhat-release)
 echo !! 2 !! OS Version determined as $c1
-
 if [[ $c1 == *"8."* ]];     then rhel8
 elif [[ $c1 == *"7."* ]];   then rhel7
 elif [[ $c1 == *"6."* ]];   then rhel6
@@ -205,18 +179,14 @@ elif [[ $c1 == *"5."* ]];   then rhel5
 else echo :-/ Failed at Step 2 : We"'"re Sorry. This script cannot be used for zabbix-agent installation on this machine && exit 0
 fi
 }
-
 function version_id_ubuntu()
 {
 u1=$(cat /etc/*release* | grep VERSION_ID=)
 echo !! 2 !! OS Version determined as $u1  #prints os version id like this : VERSION_ID="8.4"
-
 u2=$(echo $u1 | cut -c13- | rev | cut -c2- |rev)
 #echo $u2        #prints os version id like this : 8.4
-
 u3=$(echo $u2 | awk '{print int($1)}')
 #echo $u3       #prints os version id like this : 8
-
 if [[ $u3 -eq 20 ]];      then ubuntu20
 elif [[ $u3 -eq 18 ]];    then ubuntu18
 elif [[ $u3 -eq 16 ]];    then ubuntu16
@@ -224,16 +194,12 @@ elif [[ $u3 -eq 14 ]];    then ubuntu14
 else echo :-/ Failed at Step 2 : We"'"re Sorry. This script cannot be used for zabbix-agent installation on this machine && exit 0
 fi
 }
-
-
 function version_id_debian()
 {
 d1=$(cat /etc/*release* | grep VERSION_ID=)
 echo !! 2 !! OS Version determined as $d1  #prints os version id like this : VERSION_ID="8.4"
-
 d2=$(echo $d1 | cut -c13- | rev | cut -c2- |rev)
 #echo $d2        #prints os version id like this : 8.4
-
 d3=$(echo $d2 | awk '{print int($1)}')
 #echo $d3       #prints os version id like this : 8
 
@@ -243,86 +209,61 @@ elif [[ $d3 -eq 8 ]];    then debian8
 else echo :-/ Failed at Step 2 : We"'"re Sorry. This script cannot be used for zabbix-agent installation on this machine && exit 0
 fi
 }
-
-
-
 function version_id_suse()
 {
 d1=$(cat /etc/*release* | grep VERSION_ID=)
 echo !! 2 !! OS Version determined as $d1  #prints os version id like this : VERSION_ID="8.4"
-
 d2=$(echo $d1 | cut -c13- | rev | cut -c2- |rev)
 #echo $d2        #prints os version id like this : 8.4
-
 d3=$(echo $d2 | awk '{print int($1)}')
 #echo $d3       #prints os version id like this : 8
-
 if [[ $d3 -eq 15 ]];     then suse15
 elif [[ $d3 -eq 12 ]];   then suse12
 else echo :-/ Failed at Step 2 : We"'"re Sorry. This script cannot be used for zabbix-agent installation on this machine && exit 0
 fi
 }
-
 function version_id_amazon()
 {
 d1=$(cat /etc/*release* | grep VERSION_ID=)
 echo !! 2 !! OS Version determined as $d1  #prints os version id like this : VERSION_ID="8.4"
-
 d2=$(echo $d1 | cut -c13- | rev | cut -c2- |rev)
 #echo $d2        #prints os version id like this : 8.4
-
 d3=$(echo $d2 | awk '{print int($1)}')
 #echo $d3       #prints os version id like this : 8
-
 if [[ $d3 -eq 2 ]];     then rhel8
-
 else echo :-/ Failed at Step 2 : We"'"re Sorry. This script cannot be used for zabbix-agent installation on this machine && exit 0
 fi
 }
-
-
-
 #STEP 1 - SCRIPT RUNS FROM BELOW
-
-
 echo Starting Zabbix-Agent Installation Script
 echo ========================================================================
 echo Step 1 = Determining OS Distribution Type
-
 if [[ $(cat /etc/redhat-release) == *"Red Hat"* ]];
 then 	echo !! 1 !!  OS Distribution determined as Red Hat Enterprise Linux
 	echo Step 2 = Determining OS Version ID now
 	version_id_red
-
 elif [[ $(cat /etc/redhat-release) == *"CentOS"*  ]]
 	then echo !! 1 !!  OS Distribution determined as CentOS Linux
 	echo Step 2 = Determining OS Version ID now
 	version_id_centos
-
 elif [[ $(cat /etc/*release*) == *"Amazon Linux"*  ]]
         then echo !! 1 !!  OS Distribution determined as Amazon Linux
         echo Step 2 = Determining OS Version ID now
         version_id_amazon
-
 elif [[ $(cat /etc/*release*) == *"ubuntu"* ]];
 	then echo !! 1 !! OS Distribution determined as Ubuntu Linux
 	echo Step 2 = Determining OS Version ID now
         version_id_ubuntu
-
 elif [[ $(cat /etc/*release*) == *"debian"* ]];
 	then echo !! 1 !! OS Distribution determined as Debian Linux
 	echo Step 2 = Determining OS Version ID now
         version_id_debian
-
 elif [[ $(cat /etc/*release*) == *"SUSE"* ]];
 	then echo !! 1 !! OS Distribution determined as SUSE Linux
 	echo Step 2 = Determining OS Version ID now
 	version_id_suse
-
 else echo :-/ Failed at Step 1 : We"'"re Sorry. This script cannot be used for zabbix-agent installation on this machine && exit 0
 fi
-
-
 #STEP 5
 echo ========================================================================
 echo Congrats. Zabbix-Agent Installion is completed successfully.
